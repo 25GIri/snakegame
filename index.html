@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            color: #2d3436;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+        }
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        h1 {
+            color: #0984e3;
+            margin-bottom: 25px;
+        }
+        .choices {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+        }
+        button.choice-btn {
+            font-size: 40px;
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button.choice-btn:hover {
+            background: #74b9ff;
+            transform: scale(1.1);
+            border-color: #0984e3;
+        }
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 30px;
+        }
+        .reset-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #d63031;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .reset-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rock Paper Scissors</h1>
+        
+        <div class="scoreboard">
+            <div>Player: <span id="player-score">0</span></div>
+            <div>Computer: <span id="computer-score">0</span></div>
+        </div>
+
+        <p>Choose your weapon:</p>
+        <div class="choices">
+            <button class="choice-btn" onclick="playGame('rock')">✊</button>
+            <button class="choice-btn" onclick="playGame('paper')">✋</button>
+            <button class="choice-btn" onclick="playGame('scissors')">✌️</button>
+        </div>
+
+        <div id="result"></div>
+        
+        <button class="reset-btn" onclick="resetGame()">Reset Score</button>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+
+        const emojis = {
+            rock: '✊',
+            paper: '✋',
+            scissors: '✌️'
+        };
+
+        function playGame(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            let resultMessage = '';
+
+            if (playerChoice === computerChoice) {
+                resultMessage = `It's a tie! Both chose ${emojis[playerChoice]}`;
+                resultMessageColor = '#636e72';
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                playerScore++;
+                resultMessage = `You Win! ${emojis[playerChoice]} beats ${emojis[computerChoice]}`;
+                resultMessageColor = '#00b894';
+            } else {
+                computerScore++;
+                resultMessage = `You Lose! ${emojis[computerChoice]} beats ${emojis[playerChoice]}`;
+                resultMessageColor = '#d63031';
+            }
+
+            document.getElementById('player-score').textContent = playerScore;
+            document.getElementById('computer-score').textContent = computerScore;
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = resultMessage;
+            resultDiv.style.color = resultMessageColor;
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            document.getElementById('player-score').textContent = playerScore;
+            document.getElementById('computer-score').textContent = computerScore;
+            document.getElementById('result').textContent = '';
+        }
+    </script>
+</body>
+</html>
